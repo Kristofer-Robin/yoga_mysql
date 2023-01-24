@@ -1,45 +1,32 @@
+// Application packages
 const express = require('express')
 const app = express()
-
 const path = require('path')
+// add template engine
 const hbs = require('express-handlebars')
+//setup template engine directory and files extensions
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'hbs')
-app.engine('hbs', hbs.engine( {
+app.engine('hbs', hbs.engine({
     extname: 'hbs',
     defaultLayout: 'main',
     layoutsDir: __dirname + '/views/layouts'
 }))
 
-app.use(express.json())
-app.use(express.urlencoded({extended:true}))
+//setup static public directory
+app.use(express.static(path.join(__dirname, '/public')))
 
-const mysql = require('mysql')
 
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "qwerty",
-    database: "joga_ mysql"
-});
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({extended: true}))
 
-con.connect( (err) => {
-    if (err) throw err;
-    console.log("database server is Connected!");
-});
+const articleRoutes = require('./routes/article')
+const authorRoutes = require('./routes/author')
+app.use('/', articleRoutes)
+app.use('/article', articleRoutes)
+app.use('/author', authorRoutes)
+//app start point
 
-app.get('/', (reg, res) => {
-    let sql = `SELECT * FROM article WHERE slug="${reg.params.slug}"`
-    con.query(sql, (err, result) => {
-        if (err) throw err;
-        res.render('index', {
-            article: result
-        })
-    })
-})
-
-app.get('/article/:slug')
-
-app.listen(3006, () => {
-    console.log('web server is started')
+app.listen(3000, () => {
+    console.log("App is started at http://localhost:3000")
 })
