@@ -2,8 +2,10 @@
 const con = require('../utils/db');
 
 
-const getAllArtticles = (req, res) =>  {
-    let query = "SELECT * FROM article";
+const login = (req, res) =>  {
+    let username = req.body.username
+    let password = req.body.password
+    let query = "SELECT * FROM user where username = ? and password = ?";
     let articles = []
     con.query(query, (err, result) => {
         if (err) throw err;

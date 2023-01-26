@@ -1,20 +1,19 @@
-const con = require('../utils/db')
+
+const con = require('../utils/db');
 
 
-const getAuthorArticles = (req, res) => {
-    let query = `select *
-                 from article
-                 where author_id = "${req.params.author_id}"`
+const getAuthorArticles = (req, res) =>  {
+    console.log(req.params)
+    let query = `SELECT * FROM article WHERE author_id="${req.params.id}"`
     let articles
-    let author
     con.query(query, (err, result) => {
-        if (err) throw err
+        if (err) throw err;
         articles = result
-        query = `Select *
-                 from author
-                 where id = "${req.params.author_id}"`
+        console.log(articles)
+        query = `SELECT * FROM author WHERE id="${req.params.id}"`
+        let author
         con.query(query, (err, result) => {
-            if (err) throw err
+            if (err) throw err;
             author = result
             console.log(author)
             res.render('author', {
@@ -23,6 +22,9 @@ const getAuthorArticles = (req, res) => {
             })
         })
     })
-}
+};
 
-module.exports = {getAuthorArticles}
+
+module.exports = {
+    getAuthorArticles
+};
