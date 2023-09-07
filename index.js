@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 
@@ -27,6 +26,7 @@ const authorRoutes = require('./routes/author');
 app.use('/', articleRoutes);
 app.use('/article', articleRoutes)
 app.use('/author', authorRoutes)
+
 
 
 app.listen(3000, () => {

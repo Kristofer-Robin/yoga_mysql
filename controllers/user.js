@@ -38,6 +38,5 @@ const getArticleBySlug = (req, res) => {
 
 module.exports = {
     login,
-    getAllArtticles,
     getArticleBySlug
 };
