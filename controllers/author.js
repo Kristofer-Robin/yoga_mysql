@@ -25,5 +25,4 @@ const getAuthorArticles = (req, res) =>  {
 };
 
 
-
 module.exports = {getAuthorArticles};
