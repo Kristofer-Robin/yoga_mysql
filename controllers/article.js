@@ -1,22 +1,25 @@
+// import database connection
+const Article = require('../models/article.model.js')
 
-const con = require('../utils/db');
-
-
-const getAllArticles = (req, res) =>  {
-    let query = "SELECT * FROM article";
-    let articles = []
-    con.query(query, (err, result) => {
-        if (err) throw err;
-        articles = result
-        res.render('index', {
-            articles: articles
-        })
+// show all articles - index page
+const getAllArticles = (req,res) => {
+    Article.getAll((err,data) => {
+        if (err) {
+            res.status(500).send({
+                message: err.message || 'Some error occurred retrieving articles data'
+            })
+        } else {
+            console.log(data)
+            res.render('index', {
+                articles:data
+            })
+        }
     })
 };
 
-// show articles by this slug
-const getArticleBySlug = (req, res) => {
-    Articles.getBySlug(req.params.slug, (err, data) => {
+//show article by this slug
+const getArticleBySlug = (req,res) => {
+    Article.getBySlug(req.params.slug, (err, data) => {
         if (err) {
             res.status(500).send({
                 message : err.message || 'Some error occurred retrieving article data'
@@ -30,8 +33,7 @@ const getArticleBySlug = (req, res) => {
     })
 };
 
-
-
+// export controller functions
 module.exports = {
     getAllArticles,
     getArticleBySlug
