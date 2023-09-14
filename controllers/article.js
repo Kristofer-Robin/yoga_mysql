@@ -14,24 +14,22 @@ const getAllArticles = (req, res) =>  {
     })
 };
 
-
+// show articles by this slug
 const getArticleBySlug = (req, res) => {
-    let query = `SELECT *,
-    				au.name as author,
-					au.id as author_id
-					FROM article a,
-					     author au
-					WHERE slug="${req.params.slug}"
-					    and a.author_id = au.id`
-    let article
-    con.query(query, (err, result) => {
-        if (err) throw err;
-        article = result
-        res.render('article', {
-            article: article
-        })
-    });
+    Articles.getBySlug(req.params.slug, (err, data) => {
+        if (err) {
+            res.status(500).send({
+                message : err.message || 'Some error occurred retrieving article data'
+            })
+        } else {
+            console.log(data)
+            res.render('article', {
+                article:data
+            })
+        }
+    })
 };
+
 
 
 module.exports = {
