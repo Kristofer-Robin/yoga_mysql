@@ -1,36 +1,16 @@
-const Article = require('../models/article.model');
+const express = require('express');
 
-// show all articles - index page
-const getAllArticles = (req, res) => {
-    Articles.getAll((err, data) =>{
-        if (err) {
-            res.status(500).send({
-                message : err.message || 'Some error occured retriving articles data'
-            })
-        } else {
-            console.log(data)
-            res.render('index', {
-                articles: data
-            })
-        }
-    })
-};
+// get using express router
+const router = express.Router();
 
-// show articles by this slug
-const getArticlesBySlug = (req, res) => {
-    let query = `SELECT article.*, author.name AS authorName FROM artice INNER JOIN author`
-    let article
-    con.query(query, (err, result) => {
-        if (err) throw err;
-        article = result;
-        res.render('article', {
-            article: article
-        })
-    })
-};
+// define article controller and export it for this file
+const articleController = require('../controllers/article');
 
-// export controller function
-module.exports = {
-    getAllArticles,
-    getArticlesBySlug
-};
+// use controller functions according to the route
+router.get('/', articleController.getAllArticles);
+router.get('/:slug', articleController.getArticleBySlug);
+router.get('/article/create', articleController.showNewArticleForm);
+router.post('/create', articleController.createNewArticle);
+
+// export article router for using in default application file
+module.exports = router;
