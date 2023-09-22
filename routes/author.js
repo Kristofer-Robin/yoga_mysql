@@ -3,7 +3,7 @@ const router  = express.Router();
 const authorController = require('../controllers/author');
 
 
-router.get('/author/:id', authorController.getAuthorArticles);
+router.get('/:id', authorController.getAuthorArticles);
 
 
 module.exports = router;

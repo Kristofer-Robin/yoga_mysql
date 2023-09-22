@@ -39,7 +39,7 @@ Article.getBySlug = (slug, result) => {
             result(err, null);
             return;
         }
-        if (res.lenght) {
+        if (res.length) {
             console.log("found article: ", res[0]);
             result(null, res[0])
         }

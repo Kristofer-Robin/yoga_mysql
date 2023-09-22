@@ -3,7 +3,7 @@ const con = require('../utils/db');
 
 // constructor
 const Author = (author) => {
-    this.name = author.name
+    this.author_name = author.author_name
     this.author_id = author.id
 };
 
@@ -11,7 +11,7 @@ const Author = (author) => {
 Author.getName = (author_id, result) => {
     let article_query = `SELECT * FROM article, author WHERE author.id='${author_id}' AND article.author_id=author.id;`
 
-    let author_query = `SELECT name FROM author.name WHERE author.id=\'${author_id}';`
+    let author_query = `SELECT author_name FROM author WHERE author.id=\'${author_id}';`
     let author
     let articles = []
 
